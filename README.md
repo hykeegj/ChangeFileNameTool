@@ -38,7 +38,7 @@ Visual Studio Community 2019 C# WPF (.NET Core)
 
 배포
 ----
-[1.0.0](<https://github.com/hykeegj/SubtitleRun/releases>)
+[Releases](<https://github.com/hykeegj/SubtitleRun/releases>)
 
 개발자 이메일
 ---------------
