@@ -22,7 +22,7 @@ namespace ChangeFileNameTool
             InitializeComponent();
         }
 
-        // 오름차순 내림차순 정렬 유무 판단 bool 변수
+        // 오름차순 내림차순 정렬 유무 판단 bool 변수 d
         bool isSortedVideoFileNameFlag = false;
         bool isSortedVideoFileExtensionFlag = false;
         bool isSortedSubtitleFileNameFlag = false;
