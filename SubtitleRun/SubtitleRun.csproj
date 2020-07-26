@@ -25,6 +25,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Maplestory Bold.ttf" />
+    <None Remove="Maplestory Light.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,6 +38,8 @@
 
   <ItemGroup>
     <Resource Include="BG.jpg" />
+    <Resource Include="Fonts\Maplestory Bold.ttf" />
+    <Resource Include="Fonts\Maplestory Light.ttf" />
   </ItemGroup>
 
   <ItemGroup>
