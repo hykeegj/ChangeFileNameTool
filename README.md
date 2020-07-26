@@ -17,10 +17,6 @@ Visual Studio Community 2019 C# WPF (.NET Core)
 -------
 Microsoft Windows 10
 
-필수 선행 설치
---------------
-없음
-
 주요 기능
 ----------
 * 동영상 파일 이름에 맞추어 자동으로 자막 파일 이름 변경
