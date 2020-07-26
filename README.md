@@ -5,9 +5,9 @@
 -------
 ![Alt text](/Preview.png)
 
-개발 언어 및 도구
-----------------
-Visual Studio Community 2019 C# WPF (.NET Core)
+개발 환경
+---------
+C# WPF (.NET Core)
 
 프로그램 이름
 ------------
