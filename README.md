@@ -47,4 +47,4 @@ Microsoft Windows 10
 * <hykeegj@naver.com>
 
 #
-이 프로그램은 메이플스토리가 제공한 [메이플스토리 서체](https://maplestory.nexon.com/Media/Font)가 적용되어 있습니다.
+이 프로그램은 메이플스토리가 제공한 [메이플스토리 서체](https://maplestory.nexon.com/Media/Font/{:target="_blank"})가 적용되어 있습니다.
