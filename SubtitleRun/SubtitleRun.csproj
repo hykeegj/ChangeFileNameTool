@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BG.jpg" />
     <None Remove="Maplestory Bold.ttf" />
     <None Remove="Maplestory Light.ttf" />
   </ItemGroup>
