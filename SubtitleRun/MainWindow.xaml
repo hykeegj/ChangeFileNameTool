@@ -9,9 +9,9 @@
         FontWeight="Normal"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
-        Title="자막런 2.0.0"
+        Title="자막런 2.1.0"
         FontStyle="Normal"
-        MinWidth="1100" MinHeight="600">
+        MinWidth="1100">
     <Window.Resources>
         <DataTemplate x:Key="SelectableCell">
             <StackPanel Orientation="Horizontal">
@@ -22,7 +22,7 @@
     <Window.Background>
         <ImageBrush ImageSource="/BG.jpg"/>
     </Window.Background>
-    <Grid MinWidth="800" MinHeight="600" Margin="5,5,5,5">
+    <Grid Margin="5,5,5,5" MinHeight="575">
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
             <ListView x:Name="videoFile_listView" AllowDrop="True" DragEnter="videoFile_listView_DragEnter" Drop="videoFile_listView_Drop" FontFamily=".\Fonts\#Maplestory" Margin="0,40,85,0" FontSize="11" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontStyle="Normal" MaxWidth="450" MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto" MinWidth="450" MinHeight="450">
                 <ListView.View>

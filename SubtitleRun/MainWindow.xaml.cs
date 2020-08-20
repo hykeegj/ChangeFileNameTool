@@ -244,7 +244,7 @@ namespace SubtitleRun
                 videoFile_listView.ItemsSource = videoFilesList;
                 videoFile_listView.Items.Refresh();
             }
-            else if(videoFilesList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
+            else if (videoFilesList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -262,7 +262,7 @@ namespace SubtitleRun
                 LinkedListNode<File> nextNode = videoFilesList.Find((File)videoFile_listView.SelectedItem).Next;
                 LinkedListNode<File> currentNode = videoFilesList.Find((File)videoFile_listView.SelectedItem);
 
-                if(nextNode != null)
+                if (nextNode != null)
                 {
                     videoFilesList.Remove(currentNode);
                     videoFilesList.AddAfter(nextNode, currentNode);
