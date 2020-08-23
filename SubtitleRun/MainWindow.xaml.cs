@@ -314,7 +314,7 @@ namespace SubtitleRun
             e.Effects = DragDropEffects.Move;
         }
 
-        // 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 비디오 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
+        // 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 자막 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
         private void subtitleFile_listView_Drop(object sender, DragEventArgs e)
         {
             string[] subtitleFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -446,7 +446,7 @@ namespace SubtitleRun
             }
             else if (subtitleFilesList.Count <= 0)
             {
-                MessageBox.Show("비디오 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("자막 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -467,7 +467,7 @@ namespace SubtitleRun
             }
             else if (subtitleFilesList.Count <= 0)
             {
-                MessageBox.Show("비디오 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("자막 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -491,7 +491,7 @@ namespace SubtitleRun
             }
             else if (subtitleFilesList.Count <= 0)
             {
-                MessageBox.Show("비디오 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("자막 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -515,7 +515,7 @@ namespace SubtitleRun
             }
             else if (subtitleFilesList.Count <= 0)
             {
-                MessageBox.Show("비디오 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("자막 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -536,7 +536,7 @@ namespace SubtitleRun
             }
             else if (subtitleFilesList.Count <= 0)
             {
-                MessageBox.Show("비디오 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("자막 파일이 존재하지 않습니다.", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
@@ -563,7 +563,7 @@ namespace SubtitleRun
                     }
                 }
 
-                MessageBox.Show("자막 파일 이름이 동영상 파일의 이름에 맞게 변경되었습니다.\n변경된 파일을 확인해주세요.\n프로그램을 종료합니다.", Properties.Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("자막 파일 이름이 비디오 파일의 이름에 맞게 변경되었습니다.\n변경된 파일을 확인해주세요.\n프로그램을 종료합니다.", Properties.Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
                 Application.Current.MainWindow.Close();
             }
             else if (videoFilesList.Count <= 0 && subtitleFilesList.Count > 0)
@@ -580,7 +580,7 @@ namespace SubtitleRun
             }
             else if (videoFilesList.Count > 0 && subtitleFilesList.Count > 0 && videoFilesList.Count != subtitleFilesList.Count)
             {
-                MessageBox.Show("동영상 파일과 자막 파일의 개수가 일치하지 않습니다.\n파일들을 다시 확인해 주세요.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("비디오 파일과 자막 파일의 개수가 일치하지 않습니다.\n파일들을 다시 확인해 주세요.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
