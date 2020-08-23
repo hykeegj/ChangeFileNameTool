@@ -9,7 +9,7 @@
 ---------
 C# WPF (.NET Core 3.1)
 
-검증된 작동환경
+확인된 작동환경
 ---------------
 마이크로소프트 윈도우 10
 
@@ -59,8 +59,8 @@ Development environment
 -----------------------
 C# WPF (.NET Core 3.1)
 
-Proven operating environment
-----------------------------
+Checked operating system environment
+------------------------------------
 Microsoft Windows 10
 
 Main function
