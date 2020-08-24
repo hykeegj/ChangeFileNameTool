@@ -31,7 +31,7 @@ C# WPF (.NET Core 3.1)
 
 최신 버전
 --------
-2.1.1 (2020-08-23 업데이트 됨)
+2.1.2 (2020-08-24 업데이트 됨)
 
 배포
 ----
@@ -81,7 +81,7 @@ Notes on changing the subtitle file name
 
 Latest Version
 --------------
-2.1.1 (23-08-2020 Updated)
+2.1.2 (24-08-2020 Updated)
 
 Releases
 --------
