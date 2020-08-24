@@ -9,7 +9,7 @@
         FontWeight="Normal"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
-        Title="자막런 2.1.1"
+        Title="자막런 2.1.2"
         FontStyle="Normal"
         MinWidth="1100" FontFamily=".\Fonts\#Maplestory">
     <Window.Resources>
