@@ -55,26 +55,26 @@ MIT LICENSE
 SubtitleRun
 ===========
 
-Development environment
+Development Environment
 -----------------------
 C# WPF (.NET Core 3.1)
 
-Checked operating system environment
+Checked Operating System Environment
 ------------------------------------
 Microsoft Windows 10
 
-Main function
+Main Function
 -------------
 * Automatically rename the subtitle file according to the video file name
 * When changing the subtitle file name, the subtitle file is automatically moved to the location where the video file is located.
 
-Additional function
+Additional Function
 -------------------
 * File can be added by Drag & Drop.
 * Sort by file name, file extension name in ascending or descending order.
 * Move files to the top, up, down, bottom in the list.
 
-Notes on changing the subtitle file name
+Notes On Changing The Subtitle File Name
 ----------------------------------------
 * There must be at least one video file and subtitle file.
 * The number of video files and subtitle files must be the same.
@@ -92,7 +92,7 @@ Developer Email Address
 * <hykeegj@gmail.com>
 * <hykeegj@naver.com>
 
-Font resource source
+Font Resource Source
 --------------------
 [MapleStory Font](https://maplestory.nexon.com/Media/Font) provided by MapleStory is applied to this program.
 
