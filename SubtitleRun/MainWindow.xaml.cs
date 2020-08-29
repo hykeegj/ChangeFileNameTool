@@ -122,7 +122,6 @@ namespace SubtitleRun
                     videoFilesLinkedList.Remove(item);
                 }
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
@@ -165,7 +164,6 @@ namespace SubtitleRun
                     isSortedVideoFileNameFlag = false;
                 }
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
@@ -207,7 +205,7 @@ namespace SubtitleRun
 
                     isSortedVideoFileExtensionFlag = false;
                 }
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
+
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
@@ -224,7 +222,6 @@ namespace SubtitleRun
                 videoFilesLinkedList.Remove((File)videoFile_listView.SelectedItem);
                 videoFilesLinkedList.AddFirst((File)videoFile_listView.SelectedItem);
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
@@ -251,7 +248,6 @@ namespace SubtitleRun
                     videoFilesLinkedList.AddBefore(previousNode, currentNode);
                 }
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
@@ -278,7 +274,6 @@ namespace SubtitleRun
                     videoFilesLinkedList.AddAfter(nextNode, currentNode);
                 }
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
@@ -299,7 +294,6 @@ namespace SubtitleRun
                 videoFilesLinkedList.Remove((File)videoFile_listView.SelectedItem);
                 videoFilesLinkedList.AddLast((File)videoFile_listView.SelectedItem);
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
                 videoFile_listView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
@@ -341,6 +335,7 @@ namespace SubtitleRun
                     subtitleFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(subtitleFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(subtitleFilePath), Extension = System.IO.Path.GetExtension(subtitleFilePath) });
                 }
             }
+
             subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
             subtitleFile_listView.Items.Refresh();
         }
@@ -361,6 +356,7 @@ namespace SubtitleRun
                 {
                     subtitleFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(subtitleFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(subtitleFilePath), Extension = System.IO.Path.GetExtension(subtitleFilePath) });
                 }
+
                 subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
                 subtitleFile_listView.Items.Refresh();
             }
@@ -375,7 +371,7 @@ namespace SubtitleRun
                 {
                     subtitleFilesLinkedList.Remove(item);
                 }
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
+
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count == 0)
@@ -418,7 +414,6 @@ namespace SubtitleRun
                     isSortedSubtitleFileNameFlag = false;
                 }
 
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count <= 0)
@@ -460,7 +455,7 @@ namespace SubtitleRun
 
                     isSortedSubtitleFileExtensionFlag = false;
                 }
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
+
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count <= 0)
@@ -477,7 +472,6 @@ namespace SubtitleRun
                 subtitleFilesLinkedList.Remove((File)subtitleFile_listView.SelectedItem);
                 subtitleFilesLinkedList.AddFirst((File)subtitleFile_listView.SelectedItem);
 
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
@@ -498,10 +492,12 @@ namespace SubtitleRun
                 LinkedListNode<File> previousNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem).Previous;
                 LinkedListNode<File> currentNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem);
 
-                subtitleFilesLinkedList.Remove(currentNode);
-                subtitleFilesLinkedList.AddBefore(previousNode, currentNode);
+                if (previousNode != null)
+                {
+                    subtitleFilesLinkedList.Remove(currentNode);
+                    subtitleFilesLinkedList.AddBefore(previousNode, currentNode);
+                }
 
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
@@ -522,10 +518,12 @@ namespace SubtitleRun
                 LinkedListNode<File> nextNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem).Next;
                 LinkedListNode<File> currentNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem);
 
-                subtitleFilesLinkedList.Remove(currentNode);
-                subtitleFilesLinkedList.AddAfter(nextNode, currentNode);
-
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
+                if (nextNode != null)
+                {
+                    subtitleFilesLinkedList.Remove(currentNode);
+                    subtitleFilesLinkedList.AddAfter(nextNode, currentNode);
+                }
+                
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
@@ -546,7 +544,6 @@ namespace SubtitleRun
                 subtitleFilesLinkedList.Remove((File)subtitleFile_listView.SelectedItem);
                 subtitleFilesLinkedList.AddLast((File)subtitleFile_listView.SelectedItem);
 
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
                 subtitleFile_listView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
@@ -582,8 +579,15 @@ namespace SubtitleRun
                     }
                 }
 
-                MessageBox.Show("자막 파일 이름이 비디오 파일의 이름에 맞게 변경되었습니다.\n변경된 파일을 확인해주세요.\n프로그램을 종료합니다.", Properties.Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
-                Application.Current.MainWindow.Close();
+                MessageBox.Show("자막 파일 이름이 비디오 파일의 이름에 맞게 변경되었습니다.\n변경된 파일을 확인해주세요.", Properties.Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // 비디오 파일 리스트뷰 항목 전부 삭제 후 새로고침
+                videoFilesLinkedList.Clear(); // 전부 삭제
+                videoFile_listView.Items.Refresh(); // 새로고침
+
+                // 자막 파일 리스트뷰 항목 전부 삭제 후 새로고침
+                subtitleFilesLinkedList.Clear(); // 전부 삭제
+                subtitleFile_listView.Items.Refresh(); // 새로고침
             }
             else if (videoFilesLinkedList.Count <= 0 && subtitleFilesLinkedList.Count > 0)
             {
