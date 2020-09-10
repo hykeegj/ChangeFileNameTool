@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,8 +76,10 @@ namespace SubtitleRun
 
             foreach (string videoFilePath in videoFilePaths)
             {
-                // 파일이 아닌 폴더를 Drag&Drop 했을 때, 확장자가 존재하는지를 검사하여 확장자가 없는 폴더를 Drag&Drop하면 무시하는 조건문
-                if (String.IsNullOrEmpty(System.IO.Path.GetExtension(videoFilePath)))
+                FileAttributes fileAttributes = System.IO.File.GetAttributes(videoFilePath);
+
+                // Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
                 }
@@ -325,8 +328,10 @@ namespace SubtitleRun
 
             foreach (string subtitleFilePath in subtitleFilePaths)
             {
-                // 파일이 아닌 폴더를 Drag&Drop 했을 때, 확장자가 존재하는지를 검사하여 확장자가 없는 폴더를 Drag&Drop하면 무시하는 조건문
-                if (String.IsNullOrEmpty(System.IO.Path.GetExtension(subtitleFilePath)))
+                FileAttributes fileAttributes = System.IO.File.GetAttributes(subtitleFilePath);
+
+                // Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
                 }
