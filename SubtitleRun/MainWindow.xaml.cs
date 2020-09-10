@@ -34,9 +34,9 @@ namespace SubtitleRun
         // 비디오, 자막 파일 클래스
         private class File
         {
-            private string path { get; set; }        //경로(디렉토리 경로)
-            private string name { get; set; }        //파일 이름
-            private string extension { get; set; }   //확장자 이름
+            private string path { get; set; }        // 경로(디렉토리 경로)
+            private string name { get; set; }        // 파일 이름
+            private string extension { get; set; }   // 확장자 이름
 
             public string Path
             {
@@ -58,27 +58,29 @@ namespace SubtitleRun
         }
     }
 
-    // 비디오 파일 리스트뷰 동작
+    // [비디오] 파일 리스트뷰 동작
     public partial class MainWindow : Window
     {
         LinkedList<File> videoFilesLinkedList = new LinkedList<File>();   //비디오 파일 이중연결리스트
 
-        // 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
+        // [비디오] 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
         private void videoFile_listView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Copy;
         }
 
-        // 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 비디오 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
+        // [비디오] 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 비디오 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
         private void videoFile_listView_Drop(object sender, DragEventArgs e)
         {
             string[] videoFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileAttributes fileAttributes; // 파일 속성에 관련한 변수
 
             foreach (string videoFilePath in videoFilePaths)
             {
-                FileAttributes fileAttributes = System.IO.File.GetAttributes(videoFilePath);
+                 fileAttributes = System.IO.File.GetAttributes(videoFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // 출처 : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
@@ -93,7 +95,7 @@ namespace SubtitleRun
             videoFile_listView.Items.Refresh();
         }
 
-        // 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
+        // [비디오] 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
         private void videoAddButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -115,7 +117,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
+        // [비디오] 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
         private void videoDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
@@ -133,7 +135,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
+        // [비디오] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
         private void sortByVideoFileName_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
@@ -175,7 +177,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 확장자순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
+        // [비디오] 리스트뷰의 확장자순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
         private void sortByVideoFileExtension_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
@@ -217,7 +219,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveVideoIndexTopButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
@@ -237,7 +239,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveVideoIndexUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
@@ -263,7 +265,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveVideoIndexDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
@@ -289,7 +291,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveVideoIndexBottomButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
@@ -310,27 +312,29 @@ namespace SubtitleRun
         }
     }
 
-    // 자막 파일 리스트뷰 동작
+    // [자막] 파일 리스트뷰 동작
     public partial class MainWindow : Window
     {
         LinkedList<File> subtitleFilesLinkedList = new LinkedList<File>();    // 자막파일 이중연결리스트
 
-        // 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
+        // [자막] 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
         private void subtitleFile_listView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Move;
         }
 
-        // 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 자막 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
+        // [자막] 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 자막 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
         private void subtitleFile_listView_Drop(object sender, DragEventArgs e)
         {
             string[] subtitleFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileAttributes fileAttributes; // 파일 속성에 관련한 변수
 
             foreach (string subtitleFilePath in subtitleFilePaths)
             {
-                FileAttributes fileAttributes = System.IO.File.GetAttributes(subtitleFilePath);
+                 fileAttributes = System.IO.File.GetAttributes(subtitleFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // [자막] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // 출처 : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
@@ -345,7 +349,7 @@ namespace SubtitleRun
             subtitleFile_listView.Items.Refresh();
         }
 
-        // 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
+        // [자막] 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
         private void subtitleAddButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -367,7 +371,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
+        // [자막] 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
         private void subtitleDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count != 0)
@@ -385,7 +389,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
+        // [자막] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
         private void sortBySubtitleFileName_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0)
@@ -427,7 +431,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
+        // [자막] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
         private void sortBySubtitleFileExtension_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0)
@@ -469,7 +473,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [자막] 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveSubtitleIndexTopButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
@@ -489,7 +493,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [자막] 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveSubtitleIndexUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
@@ -515,7 +519,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [자막] 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveSubtitleIndexDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
@@ -541,7 +545,7 @@ namespace SubtitleRun
             }
         }
 
-        // 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
+        // [자막] 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
         private void moveSubtitleIndexBottomButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
