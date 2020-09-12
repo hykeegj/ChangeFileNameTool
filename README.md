@@ -38,20 +38,20 @@ C# WPF (.NET Core 3.1)
 
 [Releases](https://github.com/hykeegj/SubtitleRun/releases)
 
-### 개발자 이메일
+### 라이선스
 
-<hykeegj@gmail.com>
-<hykeegj@naver.com>
+MIT LICENSE
 
 ### 폰트 출처
 
 이 프로그램은 메이플스토리가 제공한 [메이플스토리 서체](https://maplestory.nexon.com/Media/Font)가 적용되어 있습니다.
 
-### 라이선스
+### 개발자 이메일
 
-MIT LICENSE
+<hykeegj@gmail.com><br>
+<hykeegj@naver.com>
 
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 ## English
 
@@ -87,15 +87,15 @@ Microsoft Windows 10
 
 [Releases](https://github.com/hykeegj/SubtitleRun/releases)
 
-### Developer Email Address
+### LICENSE
 
-<hykeegj@gmail.com>
-<hykeegj@naver.com>
+MIT LICENSE
 
 ### Font Resource Source
 
 [MapleStory Font](https://maplestory.nexon.com/Media/Font) provided by MapleStory is applied to this program.
 
-### LICENSE
+### Developer Email Address
 
-MIT LICENSE
+<hykeegj@gmail.com><br>
+<hykeegj@naver.com>
