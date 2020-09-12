@@ -32,7 +32,7 @@ C# WPF (.NET Core 3.1)
 
 ### 최신 버전
 
-2.1.4 (2020-09-10 업데이트 됨)
+2.1.5 (2020-09-12 업데이트 됨)
 
 ### 배포
 
@@ -81,7 +81,7 @@ Microsoft Windows 10
 
 ### Latest Version
 
-2.1.4 (10-09-2020 Updated)
+2.1.5 (12-09-2020 Updated)
 
 ### Releases
 
