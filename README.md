@@ -40,8 +40,8 @@ C# WPF (.NET Core 3.1)
 
 ### 개발자 이메일
 
-* <hykeegj@gmail.com>
-* <hykeegj@naver.com>
+<hykeegj@gmail.com>
+<hykeegj@naver.com>
 
 ### 폰트 출처
 
@@ -89,8 +89,8 @@ Microsoft Windows 10
 
 ### Developer Email Address
 
-* <hykeegj@gmail.com>
-* <hykeegj@naver.com>
+<hykeegj@gmail.com>
+<hykeegj@naver.com>
 
 ### Font Resource Source
 
