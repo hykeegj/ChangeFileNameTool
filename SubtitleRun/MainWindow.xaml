@@ -24,7 +24,7 @@
     </Window.Background>
     <Grid Margin="5,5,5,5" MinHeight="575">
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-            <ListView x:Name="videoFile_listView" AllowDrop="True" DragEnter="VideoFile_listView_DragEnter" Drop="VideoFile_listView_Drop" FontFamily=".\Fonts\#Maplestory" Margin="0,40,85,0" FontSize="11" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontStyle="Normal" MaxWidth="450" MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto" MinWidth="450" MinHeight="450">
+            <ListView x:Name="VideoFileListView" AllowDrop="True" DragEnter="VideoFileListView_DragEnter" Drop="VideoFileListView_Drop" FontFamily=".\Fonts\#Maplestory" Margin="0,40,85,0" FontSize="11" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontStyle="Normal" MaxWidth="450" MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto" MinWidth="450" MinHeight="450">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="#" CellTemplate="{StaticResource SelectableCell}"/>
@@ -34,18 +34,18 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label x:Name="videoLabel" Content="비디오" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Background="Transparent" Foreground="Black" FontWeight="Normal" Margin="0,5,0,0"/>
-            <Button x:Name="videoAddButton" Content="파일 추가" HorizontalAlignment="Left" Margin="285,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="VideoAddButton_Click" MinWidth="80" MinHeight="30"/>
-            <Button x:Name="videoDeleteButton" Content="항목 삭제" HorizontalAlignment="Left" Margin="370,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="VideoDeleteButton_Click" MinWidth="80" MinHeight="30"/>
-            <Button x:Name="sortByVideoFileName" Content="이름순 정렬" HorizontalAlignment="Left" Margin="65,5,0,0" VerticalAlignment="Top" FontSize="18" FontFamily=".\Fonts\#Maplestory" Click="SortByVideoFileName_Click" MinWidth="100" MinHeight="30"/>
-            <Button x:Name="sortByVideoFileExtension" Content="확장자순 정렬" HorizontalAlignment="Left" Margin="170,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortByVideoFileExtension_Click" MinWidth="110" MinHeight="30"/>
-            <Button x:Name="moveVideoIndexTopButton" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Padding="1,1,1,1" Click="MoveVideoIndexTopButton_Click" Margin="0,40,0,0" FontFamily=".\Fonts\#Maplestory" Content="맨 위로"/>
-            <Button x:Name="moveVideoIndexUpButton" Content="위로" HorizontalAlignment="Right" Margin="0,75,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexUpButton_Click" FontFamily=".\Fonts\#Maplestory"/>
-            <Button x:Name="moveVideoIndexDownButton" Content="아래로" HorizontalAlignment="Right" Margin="0,110,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexDownButton_Click" FontFamily=".\Fonts\#Maplestory"/>
-            <Button x:Name="moveVideoIndexBottomButton" Content="맨 아래로" HorizontalAlignment="Right" Margin="0,145,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexBottomButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Label x:Name="VideoLabel" Content="비디오" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Background="Transparent" Foreground="Black" FontWeight="Normal" Margin="0,5,0,0"/>
+            <Button x:Name="VideoAddButton" Content="파일 추가" HorizontalAlignment="Left" Margin="285,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="VideoAddButton_Click" MinWidth="80" MinHeight="30"/>
+            <Button x:Name="VideoDeleteButton" Content="항목 삭제" HorizontalAlignment="Left" Margin="370,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="VideoDeleteButton_Click" MinWidth="80" MinHeight="30"/>
+            <Button x:Name="SortByVideoFileName" Content="이름순 정렬" HorizontalAlignment="Left" Margin="65,5,0,0" VerticalAlignment="Top" FontSize="18" FontFamily=".\Fonts\#Maplestory" Click="SortByVideoFileName_Click" MinWidth="100" MinHeight="30"/>
+            <Button x:Name="SortByVideoFileExtension" Content="확장자순 정렬" HorizontalAlignment="Left" Margin="170,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortByVideoFileExtension_Click" MinWidth="110" MinHeight="30"/>
+            <Button x:Name="MoveVideoIndexTopButton" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Padding="1,1,1,1" Click="MoveVideoIndexTopButton_Click" Margin="0,40,0,0" FontFamily=".\Fonts\#Maplestory" Content="맨 위로"/>
+            <Button x:Name="MoveVideoIndexUpButton" Content="위로" HorizontalAlignment="Right" Margin="0,75,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexUpButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Button x:Name="MoveVideoIndexDownButton" Content="아래로" HorizontalAlignment="Right" Margin="0,110,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexDownButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Button x:Name="MoveVideoIndexBottomButton" Content="맨 아래로" HorizontalAlignment="Right" Margin="0,145,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveVideoIndexBottomButton_Click" FontFamily=".\Fonts\#Maplestory"/>
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
-            <ListView x:Name="subtitleFile_listView" Margin="0,40,85,0" AllowDrop="True" DragEnter="SubtitleFile_listView_DragEnter" Drop="SubtitleFile_listView_Drop" FontFamily=".\Fonts\#Maplestory" FontSize="11" MaxWidth="450" MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" MinWidth="450" MinHeight="450">
+            <ListView x:Name="SubtitleFileListView" Margin="0,40,85,0" AllowDrop="True" DragEnter="SubtitleFileListView_DragEnter" Drop="SubtitleFileListView_Drop" FontFamily=".\Fonts\#Maplestory" FontSize="11" MaxWidth="450" MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" MinWidth="450" MinHeight="450">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="#" CellTemplate="{StaticResource SelectableCell}"/>
@@ -55,19 +55,19 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label x:Name="subtitleLabel" Content="자막" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" FontWeight="Normal" FontStyle="Normal" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Black" Margin="0,5,0,0"/>
-            <Button x:Name="subtitleAddButton" Content="파일 추가" HorizontalAlignment="Left" Margin="285,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SubtitleAddButton_Click" MinWidth="80" MinHeight="30"/>
-            <Button x:Name="subtitleDeleteButton" Content="항목 삭제" HorizontalAlignment="Left" Margin="370,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SubtitleDeleteButton_Click" MinWidth="80" MinHeight="30"/>
-            <Button x:Name="sortBySubtitleFileName" Content="이름순 정렬" HorizontalAlignment="Left" Margin="65,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortBySubtitleFileName_Click" MinWidth="100" MinHeight="30"/>
-            <Button x:Name="sortBySubtitleFileExtension" Content="확장자순 정렬" HorizontalAlignment="Left" Margin="170,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortBySubtitleFileExtension_Click" MinWidth="110" MinHeight="30"/>
-            <Button x:Name="moveSubtitleIndexTopButton" Content="맨 위로" HorizontalAlignment="Right" Margin="0,40,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexTopButton_Click" FontFamily=".\Fonts\#Maplestory"/>
-            <Button x:Name="moveSubtitleIndexUpButton" Content="위로" HorizontalAlignment="Right" Margin="0,75,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexUpButton_Click" FontFamily=".\Fonts\#Maplestory"/>
-            <Button x:Name="moveSubtitleIndexDownButton" Content="아래로" HorizontalAlignment="Right" Margin="0,110,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexDownButton_Click" FontFamily=".\Fonts\#Maplestory"/>
-            <Button x:Name="moveSubtitleIndexBottomButton" Content="맨 아래로" HorizontalAlignment="Right" Margin="0,145,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexBottomButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Label x:Name="SubtitleLabel" Content="자막" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" FontWeight="Normal" FontStyle="Normal" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Black" Margin="0,5,0,0"/>
+            <Button x:Name="SubtitleAddButton" Content="파일 추가" HorizontalAlignment="Left" Margin="285,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SubtitleAddButton_Click" MinWidth="80" MinHeight="30"/>
+            <Button x:Name="SubtitleDeleteButton" Content="항목 삭제" HorizontalAlignment="Left" Margin="370,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SubtitleDeleteButton_Click" MinWidth="80" MinHeight="30"/>
+            <Button x:Name="SortBySubtitleFileName" Content="이름순 정렬" HorizontalAlignment="Left" Margin="65,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortBySubtitleFileName_Click" MinWidth="100" MinHeight="30"/>
+            <Button x:Name="SortBySubtitleFileExtension" Content="확장자순 정렬" HorizontalAlignment="Left" Margin="170,5,0,0" VerticalAlignment="Top" FontFamily=".\Fonts\#Maplestory" FontSize="18" Click="SortBySubtitleFileExtension_Click" MinWidth="110" MinHeight="30"/>
+            <Button x:Name="SoveSubtitleIndexTopButton" Content="맨 위로" HorizontalAlignment="Right" Margin="0,40,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexTopButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Button x:Name="SoveSubtitleIndexUpButton" Content="위로" HorizontalAlignment="Right" Margin="0,75,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexUpButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Button x:Name="SoveSubtitleIndexDownButton" Content="아래로" HorizontalAlignment="Right" Margin="0,110,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexDownButton_Click" FontFamily=".\Fonts\#Maplestory"/>
+            <Button x:Name="SoveSubtitleIndexBottomButton" Content="맨 아래로" HorizontalAlignment="Right" Margin="0,145,0,0" VerticalAlignment="Top" FontSize="18" MinWidth="80" MinHeight="30" Click="MoveSubtitleIndexBottomButton_Click" FontFamily=".\Fonts\#Maplestory"/>
         </Grid>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" MinHeight="80">
-            <CheckBox x:Name="autoMoveSubtitleFilesCheckBox" Content="동영상 파일 위치로 자동 이동" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" IsChecked="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" FlowDirection="LeftToRight" FontFamily=".\Fonts\#Maplestory" Foreground="White"/>
-            <Button x:Name="convertButton" Content="자막 파일명 바꾸기" VerticalAlignment="Bottom" FontFamily=".\Fonts\#Maplestory" FontSize="20" Click="ConvertButton_Click" HorizontalAlignment="Stretch" RenderTransformOrigin="0.54,2.6" MinHeight="60"/>
+            <CheckBox x:Name="AutoMoveSubtitleFilesCheckBox" Content="동영상 파일 위치로 자동 이동" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" IsChecked="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" FlowDirection="LeftToRight" FontFamily=".\Fonts\#Maplestory" Foreground="White"/>
+            <Button x:Name="ConvertButton" Content="자막 파일명 바꾸기" VerticalAlignment="Bottom" FontFamily=".\Fonts\#Maplestory" FontSize="20" Click="ConvertButton_Click" HorizontalAlignment="Stretch" RenderTransformOrigin="0.54,2.6" MinHeight="60"/>
         </Grid>
     </Grid>
 </Window>
