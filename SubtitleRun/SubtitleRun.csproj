@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>SubtitleRun.ico</ApplicationIcon>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <PackageIcon>SubtitleRun.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
