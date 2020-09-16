@@ -14,108 +14,126 @@ namespace SubtitleRun
         }
 
         // 오름차순 내림차순 정렬 유무 판단 bool 변수
-        bool isSortedVideoFileNameFlag = false;
-        bool isSortedVideoFileExtensionFlag = false;
-        bool isSortedSubtitleFileNameFlag = false;
-        bool isSortedSubtitleFileExtensionFlag = false;
+        private bool isSortedVideoFileNameFlag = false;
+        private bool isSortedVideoFileExtensionFlag = false;
+        private bool isSortedSubtitleFileNameFlag = false;
+        private bool isSortedSubtitleFileExtensionFlag = false;
 
-        // 비디오, 자막 파일 클래스
-        private class File
+        private enum FILETYPE
         {
-            private string path { get; set; }        // 경로(디렉토리 경로)
-            private string name { get; set; }        // 파일 이름
-            private string extension { get; set; }   // 확장자 이름
-
-            public string Path
-            {
-                get { return path; }
-                set { path = value; }
-            }
-
-            public string Name
-            {
-                get { return name; }
-                set { name = value; }
-            }
-
-            public string Extension
-            {
-                get { return extension; }
-                set { extension = value; }
-            }
+            VIDEO,
+            SUBTITLE
         }
+
+        // 비디오, 자막 파일 구조체
+        private struct Files
+        {
+            public FILETYPE FILETYPE { get; set; }
+            public string Path { get; set; }
+            public string Name { get; set; }
+            public string Extension { get; set; }
+        }
+
+        Files files;
     }
 
     // [비디오] 파일 리스트뷰 동작
     public partial class MainWindow : Window
     {
-        LinkedList<File> videoFilesLinkedList = new LinkedList<File>();   //비디오 파일 이중연결리스트
+        readonly LinkedList<Files> videoFilesLinkedList = new LinkedList<Files>();   // [비디오] 파일 이중연결리스트
 
         // [비디오] 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
-        private void videoFile_listView_DragEnter(object sender, DragEventArgs e)
+        private void VideoFileListView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Copy;
         }
 
         // [비디오] 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 비디오 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
-        private void videoFile_listView_Drop(object sender, DragEventArgs e)
+        private void VideoFileListView_Drop(object sender, DragEventArgs e)
         {
             string[] videoFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileAttributes fileAttributes; // 파일 속성에 관련한 변수
 
             foreach (string videoFilePath in videoFilePaths)
             {
-                 fileAttributes = System.IO.File.GetAttributes(videoFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
+                fileAttributes = File.GetAttributes(videoFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
-                // 출처 : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문 [출처] : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
                 }
                 else
                 {
-                    videoFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(videoFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(videoFilePath), Extension = System.IO.Path.GetExtension(videoFilePath) });
+                    files.FILETYPE = FILETYPE.VIDEO;
+                    files.Path = Path.GetDirectoryName(videoFilePath);
+                    files.Name = Path.GetFileNameWithoutExtension(videoFilePath);
+                    files.Extension = Path.GetExtension(videoFilePath);
+
+                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
+                    if (videoFilesLinkedList.Contains(files))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        videoFilesLinkedList.AddLast(files);
+                    }
                 }
             }
 
-            videoFile_listView.ItemsSource = videoFilesLinkedList;
-            videoFile_listView.Items.Refresh();
+            VideoFileListView.ItemsSource = videoFilesLinkedList;
+            VideoFileListView.Items.Refresh();
         }
 
         // [비디오] 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
-        private void videoAddButton_Click(object sender, RoutedEventArgs e)
+        private void VideoAddButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = true;
-            fileDialog.Filter = "Video Files|*.asf; *.avi; *.flv; *.bik; *.bik2; *.flv; *.mkv; *.mov; *.mp4; *.m4p; *.m4b; *.m4r; *.m4v; *.mpeg; *.mpg; *.ps; *.ts; *.tp; *.mts; *.m2ts; *.tod; 3gp; *.skm; *.k3g; *.lmp4 *.ogg; *.rm; *.wmv; *.webm|All files (*.*)|*.*";
-            // fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 윈도우 파일 탐색기의 기본 위치를 내문서로 강제 변경하기
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Video Files|*.asf; *.avi; *.flv; *.bik; *.bik2; *.flv; *.mkv; *.mov; *.mp4; *.m4p; *.m4b; *.m4r; *.m4v; *.mpeg; *.mpg; *.ps; *.ts; *.tp; *.mts; *.m2ts; *.tod; 3gp; *.skm; *.k3g; *.lmp4 *.ogg; *.rm; *.wmv; *.webm|All files (*.*)|*.*"
+                // InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) // 윈도우 파일 탐색기의 기본 위치를 내문서로 강제 변경하기
+            };
 
-            bool? result = fileDialog.ShowDialog();
+            bool? result = openFileDialog.ShowDialog();
 
             if (result == true)
             {
-                foreach (string videoFilePath in fileDialog.FileNames)
+                foreach (string videoFilePath in openFileDialog.FileNames)
                 {
-                    videoFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(videoFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(videoFilePath), Extension = System.IO.Path.GetExtension(videoFilePath) });
+                    files.FILETYPE = FILETYPE.VIDEO;
+                    files.Path = Path.GetDirectoryName(videoFilePath);
+                    files.Name = Path.GetFileNameWithoutExtension(videoFilePath);
+                    files.Extension = Path.GetExtension(videoFilePath);
+
+                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
+                    if (videoFilesLinkedList.Contains(files))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        videoFilesLinkedList.AddLast(files);
+                    }
                 }
 
-                videoFile_listView.ItemsSource = videoFilesLinkedList;
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.ItemsSource = videoFilesLinkedList;
+                VideoFileListView.Items.Refresh();
             }
         }
 
         // [비디오] 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
-        private void videoDeleteButton_Click(object sender, RoutedEventArgs e)
+        private void VideoDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
             {
-                foreach (File item in videoFile_listView.SelectedItems)
+                foreach (Files item in VideoFileListView.SelectedItems)
                 {
                     videoFilesLinkedList.Remove(item);
                 }
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
             {
@@ -124,11 +142,11 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
-        private void sortByVideoFileName_Click(object sender, RoutedEventArgs e)
+        private void SortByVideoFileName_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
             {
-                List<File> sortedList = videoFilesLinkedList.ToList();
+                List<Files> sortedList = videoFilesLinkedList.ToList();
 
                 if (isSortedVideoFileNameFlag == false)
                 {
@@ -136,7 +154,7 @@ namespace SubtitleRun
 
                     videoFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         videoFilesLinkedList.AddLast(item);
                     }
@@ -149,7 +167,7 @@ namespace SubtitleRun
 
                     videoFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         videoFilesLinkedList.AddLast(item);
                     }
@@ -157,7 +175,7 @@ namespace SubtitleRun
                     isSortedVideoFileNameFlag = false;
                 }
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
             {
@@ -166,11 +184,11 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트뷰의 확장자순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
-        private void sortByVideoFileExtension_Click(object sender, RoutedEventArgs e)
+        private void SortByVideoFileExtension_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0)
             {
-                List<File> sortedList = videoFilesLinkedList.ToList();
+                List<Files> sortedList = videoFilesLinkedList.ToList();
 
                 if (isSortedVideoFileExtensionFlag == false)
                 {
@@ -178,7 +196,7 @@ namespace SubtitleRun
 
                     videoFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         videoFilesLinkedList.AddLast(item);
                     }
@@ -191,7 +209,7 @@ namespace SubtitleRun
 
                     videoFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         videoFilesLinkedList.AddLast(item);
                     }
@@ -199,7 +217,7 @@ namespace SubtitleRun
                     isSortedVideoFileExtensionFlag = false;
                 }
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
             else if (videoFilesLinkedList.Count <= 0)
             {
@@ -208,16 +226,16 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveVideoIndexTopButton_Click(object sender, RoutedEventArgs e)
+        private void MoveVideoIndexTopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
+            if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count == 1)
             {
-                videoFilesLinkedList.Remove((File)videoFile_listView.SelectedItem);
-                videoFilesLinkedList.AddFirst((File)videoFile_listView.SelectedItem);
+                videoFilesLinkedList.Remove((Files)VideoFileListView.SelectedItem);
+                videoFilesLinkedList.AddFirst((Files)VideoFileListView.SelectedItem);
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
-            else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
+            else if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -228,12 +246,12 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveVideoIndexUpButton_Click(object sender, RoutedEventArgs e)
+        private void MoveVideoIndexUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
+            if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count == 1)
             {
-                LinkedListNode<File> previousNode = videoFilesLinkedList.Find((File)videoFile_listView.SelectedItem).Previous;
-                LinkedListNode<File> currentNode = videoFilesLinkedList.Find((File)videoFile_listView.SelectedItem);
+                LinkedListNode<Files> previousNode = videoFilesLinkedList.Find((Files)VideoFileListView.SelectedItem).Previous;
+                LinkedListNode<Files> currentNode = videoFilesLinkedList.Find((Files)VideoFileListView.SelectedItem);
 
                 if (previousNode != null)
                 {
@@ -241,9 +259,9 @@ namespace SubtitleRun
                     videoFilesLinkedList.AddBefore(previousNode, currentNode);
                 }
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
-            else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
+            else if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -254,12 +272,12 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveVideoIndexDownButton_Click(object sender, RoutedEventArgs e)
+        private void MoveVideoIndexDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
+            if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count == 1)
             {
-                LinkedListNode<File> nextNode = videoFilesLinkedList.Find((File)videoFile_listView.SelectedItem).Next;
-                LinkedListNode<File> currentNode = videoFilesLinkedList.Find((File)videoFile_listView.SelectedItem);
+                LinkedListNode<Files> nextNode = videoFilesLinkedList.Find((Files)VideoFileListView.SelectedItem).Next;
+                LinkedListNode<Files> currentNode = videoFilesLinkedList.Find((Files)VideoFileListView.SelectedItem);
 
                 if (nextNode != null)
                 {
@@ -267,9 +285,9 @@ namespace SubtitleRun
                     videoFilesLinkedList.AddAfter(nextNode, currentNode);
                 }
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
-            else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
+            else if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -280,16 +298,16 @@ namespace SubtitleRun
         }
 
         // [비디오] 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveVideoIndexBottomButton_Click(object sender, RoutedEventArgs e)
+        private void MoveVideoIndexBottomButton_Click(object sender, RoutedEventArgs e)
         {
-            if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count == 1)
+            if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count == 1)
             {
-                videoFilesLinkedList.Remove((File)videoFile_listView.SelectedItem);
-                videoFilesLinkedList.AddLast((File)videoFile_listView.SelectedItem);
+                videoFilesLinkedList.Remove((Files)VideoFileListView.SelectedItem);
+                videoFilesLinkedList.AddLast((Files)VideoFileListView.SelectedItem);
 
-                videoFile_listView.Items.Refresh();
+                VideoFileListView.Items.Refresh();
             }
-            else if (videoFilesLinkedList.Count > 0 && videoFile_listView.SelectedItems.Count > 1)
+            else if (videoFilesLinkedList.Count > 0 && VideoFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -303,73 +321,100 @@ namespace SubtitleRun
     // [자막] 파일 리스트뷰 동작
     public partial class MainWindow : Window
     {
-        LinkedList<File> subtitleFilesLinkedList = new LinkedList<File>();    // 자막파일 이중연결리스트
+        readonly LinkedList<Files> subtitleFilesLinkedList = new LinkedList<Files>();    // 자막파일 이중연결리스트
 
         // [자막] 리스트뷰에 파일을 Drag&Drop 할 때, 드랍 가능 여부를 판단하기 위해 마우스 포인터 모양을 바꾸는 이벤트
-        private void subtitleFile_listView_DragEnter(object sender, DragEventArgs e)
+        private void SubtitleFileListView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Move;
         }
 
         // [자막] 리스트뷰에 파일을 Drag&Drop 하여 추가하면, 자막 파일 리스트에 디렉토리 경로, 파일 이름, 파일 확장자를 저장 후 리스트뷰에 디렉토리 경로, 파일 이름, 파일 확장자 표시하는 이벤트
-        private void subtitleFile_listView_Drop(object sender, DragEventArgs e)
+        private void SubtitleFileListView_Drop(object sender, DragEventArgs e)
         {
             string[] subtitleFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileAttributes fileAttributes; // 파일 속성에 관련한 변수
 
             foreach (string subtitleFilePath in subtitleFilePaths)
             {
-                 fileAttributes = System.IO.File.GetAttributes(subtitleFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
+                fileAttributes = File.GetAttributes(subtitleFilePath); // (string)subtitleFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [자막] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
-                // 출처 : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문 [출처] : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
                 }
                 else
                 {
-                    subtitleFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(subtitleFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(subtitleFilePath), Extension = System.IO.Path.GetExtension(subtitleFilePath) });
+                    files.FILETYPE = FILETYPE.SUBTITLE;
+                    files.Path = Path.GetDirectoryName(subtitleFilePath);
+                    files.Name = Path.GetFileNameWithoutExtension(subtitleFilePath);
+                    files.Extension = Path.GetExtension(subtitleFilePath);
+
+                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
+                    if (subtitleFilesLinkedList.Contains(files))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        subtitleFilesLinkedList.AddLast(files);
+                    }
                 }
             }
 
-            subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
-            subtitleFile_listView.Items.Refresh();
+            SubtitleFileListView.ItemsSource = subtitleFilesLinkedList;
+            SubtitleFileListView.Items.Refresh();
         }
 
         // [자막] 리스트뷰의 추가 버튼을 클릭하여 파일 탐색기를 실행 후 파일을 추가하는 버튼 클릭 이벤트
-        private void subtitleAddButton_Click(object sender, RoutedEventArgs e)
+        private void SubtitleAddButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Multiselect = true;
-            dlg.Filter = "Subtitle Files|*.smi; *.srt; *.ssa; *.ass; *.lrc|All files (*.*)|*.*";
-            //dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // 윈도우 파일 탐색기의 기본 위치를 내문서로 강제 변경하기
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Subtitle Files|*.smi; *.srt; *.ssa; *.ass; *.lrc|All files (*.*)|*.*"
+                // InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) // 윈도우 파일 탐색기의 기본 위치를 내문서로 강제 변경하기
+            };
 
-            bool? result = dlg.ShowDialog();
+            bool? result = openFileDialog.ShowDialog();
 
             if (result == true)
             {
-                foreach (string subtitleFilePath in dlg.FileNames)
+                foreach (string subtitleFilePath in openFileDialog.FileNames)
                 {
-                    subtitleFilesLinkedList.AddLast(new File() { Path = System.IO.Path.GetDirectoryName(subtitleFilePath), Name = System.IO.Path.GetFileNameWithoutExtension(subtitleFilePath), Extension = System.IO.Path.GetExtension(subtitleFilePath) });
+                    files.FILETYPE = FILETYPE.SUBTITLE;
+                    files.Path = Path.GetDirectoryName(subtitleFilePath);
+                    files.Name = Path.GetFileNameWithoutExtension(subtitleFilePath);
+                    files.Extension = Path.GetExtension(subtitleFilePath);
+
+                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
+                    if (subtitleFilesLinkedList.Contains(files))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        subtitleFilesLinkedList.AddLast(files);
+                    }
                 }
 
-                subtitleFile_listView.ItemsSource = subtitleFilesLinkedList;
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.ItemsSource = subtitleFilesLinkedList;
+                SubtitleFileListView.Items.Refresh();
             }
         }
 
         // [자막] 리스트뷰의 삭제 버튼을 클릭하여 체크박스가 체크된 항목들을 삭제하는 버튼 클릭 이벤트
-        private void subtitleDeleteButton_Click(object sender, RoutedEventArgs e)
+        private void SubtitleDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count != 0)
             {
-                foreach (File item in subtitleFile_listView.SelectedItems)
+                foreach (Files item in SubtitleFileListView.SelectedItems)
                 {
                     subtitleFilesLinkedList.Remove(item);
                 }
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count == 0)
             {
@@ -378,11 +423,11 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 이름 순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
-        private void sortBySubtitleFileName_Click(object sender, RoutedEventArgs e)
+        private void SortBySubtitleFileName_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0)
             {
-                List<File> sortedList = subtitleFilesLinkedList.ToList();
+                List<Files> sortedList = subtitleFilesLinkedList.ToList();
 
                 if (isSortedSubtitleFileNameFlag == false)
                 {
@@ -390,7 +435,7 @@ namespace SubtitleRun
 
                     subtitleFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         subtitleFilesLinkedList.AddLast(item);
                     }
@@ -403,7 +448,7 @@ namespace SubtitleRun
 
                     subtitleFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         subtitleFilesLinkedList.AddLast(item);
                     }
@@ -411,7 +456,7 @@ namespace SubtitleRun
                     isSortedSubtitleFileNameFlag = false;
                 }
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count <= 0)
             {
@@ -420,11 +465,11 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트뷰의 이름순 정렬 버튼을 클릭하면 추가된 항목들을 확장자 이름순으로 오름차순/내림차순 정렬하는 버튼 클릭 이벤트
-        private void sortBySubtitleFileExtension_Click(object sender, RoutedEventArgs e)
+        private void SortBySubtitleFileExtension_Click(object sender, RoutedEventArgs e)
         {
             if (subtitleFilesLinkedList.Count > 0)
             {
-                List<File> sortedList = subtitleFilesLinkedList.ToList();
+                List<Files> sortedList = subtitleFilesLinkedList.ToList();
 
                 if (isSortedSubtitleFileExtensionFlag == false)
                 {
@@ -432,7 +477,7 @@ namespace SubtitleRun
 
                     subtitleFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         subtitleFilesLinkedList.AddLast(item);
                     }
@@ -445,7 +490,7 @@ namespace SubtitleRun
 
                     subtitleFilesLinkedList.Clear();
 
-                    foreach (File item in sortedList)
+                    foreach (Files item in sortedList)
                     {
                         subtitleFilesLinkedList.AddLast(item);
                     }
@@ -453,7 +498,7 @@ namespace SubtitleRun
                     isSortedSubtitleFileExtensionFlag = false;
                 }
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
             else if (subtitleFilesLinkedList.Count <= 0)
             {
@@ -462,16 +507,16 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트 뷰의 항목들을 체크한 뒤, 맨 위로 버튼을 누르면 리스트 뷰의 맨 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveSubtitleIndexTopButton_Click(object sender, RoutedEventArgs e)
+        private void MoveSubtitleIndexTopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
+            if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count == 1)
             {
-                subtitleFilesLinkedList.Remove((File)subtitleFile_listView.SelectedItem);
-                subtitleFilesLinkedList.AddFirst((File)subtitleFile_listView.SelectedItem);
+                subtitleFilesLinkedList.Remove((Files)SubtitleFileListView.SelectedItem);
+                subtitleFilesLinkedList.AddFirst((Files)SubtitleFileListView.SelectedItem);
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
-            else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
+            else if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -482,12 +527,12 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트 뷰의 항목들을 체크한 뒤, 위로 버튼을 누르면 리스트 뷰의 한단계 위쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveSubtitleIndexUpButton_Click(object sender, RoutedEventArgs e)
+        private void MoveSubtitleIndexUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
+            if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count == 1)
             {
-                LinkedListNode<File> previousNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem).Previous;
-                LinkedListNode<File> currentNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem);
+                LinkedListNode<Files> previousNode = subtitleFilesLinkedList.Find((Files)SubtitleFileListView.SelectedItem).Previous;
+                LinkedListNode<Files> currentNode = subtitleFilesLinkedList.Find((Files)SubtitleFileListView.SelectedItem);
 
                 if (previousNode != null)
                 {
@@ -495,9 +540,9 @@ namespace SubtitleRun
                     subtitleFilesLinkedList.AddBefore(previousNode, currentNode);
                 }
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
-            else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
+            else if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -508,22 +553,22 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트 뷰의 항목들을 체크한 뒤, 아래로 버튼을 누르면 리스트 뷰의 한단계 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveSubtitleIndexDownButton_Click(object sender, RoutedEventArgs e)
+        private void MoveSubtitleIndexDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
+            if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count == 1)
             {
-                LinkedListNode<File> nextNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem).Next;
-                LinkedListNode<File> currentNode = subtitleFilesLinkedList.Find((File)subtitleFile_listView.SelectedItem);
+                LinkedListNode<Files> nextNode = subtitleFilesLinkedList.Find((Files)SubtitleFileListView.SelectedItem).Next;
+                LinkedListNode<Files> currentNode = subtitleFilesLinkedList.Find((Files)SubtitleFileListView.SelectedItem);
 
                 if (nextNode != null)
                 {
                     subtitleFilesLinkedList.Remove(currentNode);
                     subtitleFilesLinkedList.AddAfter(nextNode, currentNode);
                 }
-                
-                subtitleFile_listView.Items.Refresh();
+
+                SubtitleFileListView.Items.Refresh();
             }
-            else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
+            else if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -534,16 +579,16 @@ namespace SubtitleRun
         }
 
         // [자막] 리스트 뷰의 항목들을 체크한 뒤, 맨 아래로 버튼을 누르면 리스트 뷰의 맨 아래쪽으로 항목이 이동하는 버튼 클릭 이벤트
-        private void moveSubtitleIndexBottomButton_Click(object sender, RoutedEventArgs e)
+        private void MoveSubtitleIndexBottomButton_Click(object sender, RoutedEventArgs e)
         {
-            if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count == 1)
+            if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count == 1)
             {
-                subtitleFilesLinkedList.Remove((File)subtitleFile_listView.SelectedItem);
-                subtitleFilesLinkedList.AddLast((File)subtitleFile_listView.SelectedItem);
+                subtitleFilesLinkedList.Remove((Files)SubtitleFileListView.SelectedItem);
+                subtitleFilesLinkedList.AddLast((Files)SubtitleFileListView.SelectedItem);
 
-                subtitleFile_listView.Items.Refresh();
+                SubtitleFileListView.Items.Refresh();
             }
-            else if (subtitleFilesLinkedList.Count > 0 && subtitleFile_listView.SelectedItems.Count > 1)
+            else if (subtitleFilesLinkedList.Count > 0 && SubtitleFileListView.SelectedItems.Count > 1)
             {
                 MessageBox.Show("이동시킬 항목을 1개만 선택해 주세요!", Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -557,34 +602,34 @@ namespace SubtitleRun
     // 자막 파일명 바꾸기 버튼 동작
     public partial class MainWindow : Window
     {
-        private void convertButton_Click(object sender, RoutedEventArgs e)
+        private void ConvertButton_Click(object sender, RoutedEventArgs e)
         {
             if (videoFilesLinkedList.Count > 0 && subtitleFilesLinkedList.Count > 0 && videoFilesLinkedList.Count == subtitleFilesLinkedList.Count)
             {
-                if (autoMoveSubtitleFilesCheckBox.IsChecked == true)
+                if (AutoMoveSubtitleFilesCheckBox.IsChecked == true)
                 {
                     for (int i = 0; i < subtitleFilesLinkedList.Count; i++)
                     {
-                        System.IO.File.Move(subtitleFilesLinkedList.ElementAt(i).Path + "\\" + subtitleFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension, videoFilesLinkedList.ElementAt(i).Path + "\\" + videoFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension);
+                        File.Move(subtitleFilesLinkedList.ElementAt(i).Path + "\\" + subtitleFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension, videoFilesLinkedList.ElementAt(i).Path + "\\" + videoFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension);
                     }
                 }
-                else if (autoMoveSubtitleFilesCheckBox.IsChecked == false)
+                else if (AutoMoveSubtitleFilesCheckBox.IsChecked == false)
                 {
                     for (int i = 0; i < subtitleFilesLinkedList.Count; i++)
                     {
-                        System.IO.File.Move(subtitleFilesLinkedList.ElementAt(i).Path + "\\" + subtitleFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension, subtitleFilesLinkedList.ElementAt(i).Path + "\\" + videoFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension);
+                        File.Move(subtitleFilesLinkedList.ElementAt(i).Path + "\\" + subtitleFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension, subtitleFilesLinkedList.ElementAt(i).Path + "\\" + videoFilesLinkedList.ElementAt(i).Name + subtitleFilesLinkedList.ElementAt(i).Extension);
                     }
                 }
 
                 MessageBox.Show("자막 파일 이름이 비디오 파일의 이름에 맞게 변경되었습니다.\n변경된 파일을 확인해주세요.", Properties.Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
-                
+
                 // 비디오 파일 리스트뷰 항목 전부 삭제 후 새로고침
                 videoFilesLinkedList.Clear(); // 전부 삭제
-                videoFile_listView.Items.Refresh(); // 새로고침
+                VideoFileListView.Items.Refresh(); // 새로고침
 
                 // 자막 파일 리스트뷰 항목 전부 삭제 후 새로고침
                 subtitleFilesLinkedList.Clear(); // 전부 삭제
-                subtitleFile_listView.Items.Refresh(); // 새로고침
+                SubtitleFileListView.Items.Refresh(); // 새로고침
             }
             else if (videoFilesLinkedList.Count <= 0 && subtitleFilesLinkedList.Count > 0)
             {
