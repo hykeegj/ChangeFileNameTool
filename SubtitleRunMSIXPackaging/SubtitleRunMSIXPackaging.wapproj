@@ -59,7 +59,7 @@
     <PackageCertificateThumbprint>D2C3FDE5800ABBEC74AB46C120C0BC2F0C16D5A4</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA512</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>C:\Users\hykee\Documents\GitHub\SubtitleRun\SubtitleRun\MSIX\</AppxPackageDir>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>

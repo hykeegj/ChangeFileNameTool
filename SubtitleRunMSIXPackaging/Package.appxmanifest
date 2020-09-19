@@ -9,7 +9,7 @@
   <Identity
     Name="125b849e-5c13-4e57-a5af-043adc6b350a"
     Publisher="CN=hykeegj"
-    Version="1.0.4.0" />
+    Version="2.1.6.0" />
 
   <Properties>
     <DisplayName>SubtitleRun</DisplayName>
