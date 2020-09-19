@@ -60,7 +60,7 @@
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA512</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>C:\Users\hykee\Documents\GitHub\SubtitleRun\SubtitleRun\MSIX\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\hykee\Documents\GitHub\SubtitleRun\</AppxPackageDir>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppInstallerUri>C:\Users\hykee\Desktop\SubtitleRun</AppInstallerUri>
