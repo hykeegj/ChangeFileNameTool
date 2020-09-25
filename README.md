@@ -48,7 +48,7 @@ MIT LICENSE
 
 ### 개발자 이메일
 
-<hykeegj@gmail.com><br>
+<hykeegj@gmail.com>   
 <hykeegj@naver.com>
 
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -97,5 +97,5 @@ MIT LICENSE
 
 ### Developer Email Address
 
-<hykeegj@gmail.com><br>
+<hykeegj@gmail.com>   
 <hykeegj@naver.com>
