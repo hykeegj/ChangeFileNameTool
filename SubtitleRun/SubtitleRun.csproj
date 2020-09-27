@@ -17,6 +17,7 @@
     <SignAssembly>false</SignAssembly>
     <NeutralLanguage>ko-KR</NeutralLanguage>
     <Company>Heo SuYeong</Company>
+    <StartupObject>SubtitleRun.App</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +27,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
