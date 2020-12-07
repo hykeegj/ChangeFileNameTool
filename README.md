@@ -1,6 +1,9 @@
 # 자막런 (SubtitleRun)
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhykeegj%2Fsubtitle-run&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/hykeegj/subtitle-run)
+![GitHub top language](https://img.shields.io/github/languages/top/hykeegj/subtitle-run)
+![GitHub language count](https://img.shields.io/github/languages/count/hykeegj/subtitle-run)
+![GitHub](https://img.shields.io/github/license/hykeegj/subtitle-run?color=%230E7FC0)
 
 ## 한국어
 
