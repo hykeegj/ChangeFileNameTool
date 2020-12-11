@@ -1,15 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>SubtitleRun.ico</ApplicationIcon>
-    <Version>2.1.6</Version>
+    <Version>2.2.0</Version>
     <PackageIcon>SubtitleRun.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Heo SuYeong</Copyright>
     <Description>[C# WPF (NET Core)] 동영상 파일의 이름에 맞게 자막파일을 자동으로 변경해주는 GUI 프로그램</Description>
     <Authors>Heo SuYeong</Authors>
@@ -34,6 +34,10 @@
     <None Remove="BG.jpg" />
     <None Remove="Maplestory Bold.ttf" />
     <None Remove="Maplestory Light.ttf" />
+    <None Include="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

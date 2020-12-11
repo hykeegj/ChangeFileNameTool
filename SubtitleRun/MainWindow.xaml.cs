@@ -58,7 +58,8 @@ namespace SubtitleRun
             {
                 fileAttributes = File.GetAttributes(videoFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문 [출처] : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // 출처: https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=net-5.0#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
@@ -339,7 +340,8 @@ namespace SubtitleRun
             {
                 fileAttributes = File.GetAttributes(subtitleFilePath); // (string)subtitleFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문 [출처] : https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=netcore-3.1#System_IO_File_GetAttributes_System_String
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // 출처: https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=net-5.0#System_IO_File_GetAttributes_System_String
                 if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     continue;
