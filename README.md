@@ -1,9 +1,7 @@
 # 자막런 (SubtitleRun)
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/hykeegj/subtitle-run)
-![GitHub top language](https://img.shields.io/github/languages/top/hykeegj/subtitle-run)
-![GitHub language count](https://img.shields.io/github/languages/count/hykeegj/subtitle-run)
-![GitHub](https://img.shields.io/github/license/hykeegj/subtitle-run?color=%230E7FC0)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/hykeegj/subtitle-run)](https://github.com/hykeegj/subtitle-run/releases/tag/2.1.6)
+[![GitHub](https://img.shields.io/github/license/hykeegj/subtitle-run?color=%230E7FC0)](https://github.com/hykeegj/subtitle-run/blob/master/LICENSE)
 
 ## 한국어
 
