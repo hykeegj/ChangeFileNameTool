@@ -4,26 +4,26 @@
 
 ## 한국어
 
-### 미리보기
+### 실행 화면
 
 ![Alt text](/Preview.png)
 
 ### 개발 환경
 
-C# WPF (.NET Core 3.1)
+- C# WPF (.NET Core 3.1)
 
-### 확인된 작동환경
+### 확인된 작동 환경
 
-마이크로소프트 윈도우 10
+- 마이크로소프트 윈도우 10
 
 ### 주요 기능
 
 - 동영상 파일 이름에 맞추어 자동으로 자막 파일 이름 변경
-- 동영상 파일이 저장된 위치에 자동으로 자막파일 이동
+- 동영상 파일이 저장된 위치에 자동으로 자막 파일 이동
 
 ### 부가 기능
 
-- 드래그 앤 드랍으로 파일 추가 가능
+- 드래그 앤 드롭으로 파일 추가 가능
 - 파일 이름순, 파일 확장자 이름순으로 오름차순 또는 내림차순 정렬
 - 파일을 맨 위로, 위로, 아래로, 맨 아래로 이동
 
@@ -34,7 +34,7 @@ C# WPF (.NET Core 3.1)
 
 ### 최신 버전
 
-- [2.1.6](https://github.com/hykeegj/SubtitleRun/releases) (2020-09-16 업데이트 됨)
+- [2.1.6](https://github.com/hykeegj/SubtitleRun/releases) (2020-09-16 업데이트됨)
 
 ### 라이선스
 
@@ -54,11 +54,11 @@ C# WPF (.NET Core 3.1)
 
 ### Development Environment
 
-C# WPF (.NET Core 3.1)
+- C# WPF (.NET Core 3.1)
 
 ### Checked Operating System Environment
 
-Microsoft Windows 10
+- Microsoft Windows 10
 
 ### Main Function
 
@@ -82,11 +82,11 @@ Microsoft Windows 10
 
 ### LICENSE
 
-[MIT LICENSE](LICENSE)
+- [MIT LICENSE](LICENSE)
 
 ### Font Resource Source
 
-[MapleStory Font](https://maplestory.nexon.com/Media/Font) provided by MapleStory is applied to this program.
+- [MapleStory Font](https://maplestory.nexon.com/Media/Font) provided by MapleStory is applied to this program.
 
 ### Developer Email Address
 
