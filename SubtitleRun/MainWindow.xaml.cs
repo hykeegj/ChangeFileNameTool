@@ -58,25 +58,17 @@ namespace SubtitleRun
             {
                 fileAttributes = File.GetAttributes(videoFilePath); // (string)videoFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여, 폴더가 아닌 파일 일때만 추가하는 조건문
                 // 출처: https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=net-5.0#System_IO_File_GetAttributes_System_String
-                if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    continue;
-                }
-                else
+                if (!((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory))
                 {
                     files.FILETYPE = FILETYPE.VIDEO;
                     files.Path = Path.GetDirectoryName(videoFilePath);
                     files.Name = Path.GetFileNameWithoutExtension(videoFilePath);
                     files.Extension = Path.GetExtension(videoFilePath);
 
-                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
-                    if (videoFilesLinkedList.Contains(files))
-                    {
-                        continue;
-                    }
-                    else
+                    // 이중연결리스트 안에 파일이 이미 존재하지 않으면 파일을 추가하는 조건문
+                    if (!videoFilesLinkedList.Contains(files))
                     {
                         videoFilesLinkedList.AddLast(files);
                     }
@@ -108,12 +100,8 @@ namespace SubtitleRun
                     files.Name = Path.GetFileNameWithoutExtension(videoFilePath);
                     files.Extension = Path.GetExtension(videoFilePath);
 
-                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
-                    if (videoFilesLinkedList.Contains(files))
-                    {
-                        continue;
-                    }
-                    else
+                    // 이중연결리스트 안에 파일이 이미 존재하지 않으면 파일을 추가하는 조건문
+                    if (!videoFilesLinkedList.Contains(files))
                     {
                         videoFilesLinkedList.AddLast(files);
                     }
@@ -340,25 +328,17 @@ namespace SubtitleRun
             {
                 fileAttributes = File.GetAttributes(subtitleFilePath); // (string)subtitleFilePath 변수를 System.IO.File.Getattributes 메소드 인자로 fileAttributes 변수에 대입
 
-                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여 파일이 아닌 폴더이면 무시하는 조건문
+                // [비디오] Drag&Drop 했을 때, FileAttributes.Dirctory를 검사하여, 폴더가 아닌 파일 일때만 추가하는 조건문
                 // 출처: https://docs.microsoft.com/ko-kr/dotnet/api/system.io.file.getattributes?view=net-5.0#System_IO_File_GetAttributes_System_String
-                if ((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    continue;
-                }
-                else
+                if (!((fileAttributes & FileAttributes.Directory) == FileAttributes.Directory))
                 {
                     files.FILETYPE = FILETYPE.SUBTITLE;
                     files.Path = Path.GetDirectoryName(subtitleFilePath);
                     files.Name = Path.GetFileNameWithoutExtension(subtitleFilePath);
                     files.Extension = Path.GetExtension(subtitleFilePath);
 
-                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
-                    if (subtitleFilesLinkedList.Contains(files))
-                    {
-                        continue;
-                    }
-                    else
+                    // 이중연결리스트 안에 파일이 이미 존재하지 않으면 파일을 추가하는 조건문
+                    if (!subtitleFilesLinkedList.Contains(files))
                     {
                         subtitleFilesLinkedList.AddLast(files);
                     }
@@ -390,12 +370,8 @@ namespace SubtitleRun
                     files.Name = Path.GetFileNameWithoutExtension(subtitleFilePath);
                     files.Extension = Path.GetExtension(subtitleFilePath);
 
-                    // 이중연결리스트 안에 이미 항목이 존재하는지 검사해서 이미 있으면 건너뛰는 조건문
-                    if (subtitleFilesLinkedList.Contains(files))
-                    {
-                        continue;
-                    }
-                    else
+                    // 이중연결리스트 안에 파일이 이미 존재하지 않으면 파일을 추가하는 조건문
+                    if (!subtitleFilesLinkedList.Contains(files))
                     {
                         subtitleFilesLinkedList.AddLast(files);
                     }
